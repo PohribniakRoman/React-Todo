@@ -6,9 +6,13 @@ export default function Login( {changeStatus} ) {
     return(
       <Form className="login" onSubmit={(event)=>{
         event.preventDefault();
-        changeStatus(true);
-        localStorage.setItem("user", field.trim());
-        updateField("");
+        if(field.trim()){
+          changeStatus(true);
+          localStorage.setItem("user", field.trim());
+          updateField("");
+        }else{
+          alert("Write your name")
+        }
       }}>
       <Form.Label>Log in</Form.Label>
         <InputGroup className="mb-3">

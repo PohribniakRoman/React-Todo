@@ -9,16 +9,10 @@ import "./styles/style.css";
 
 
 
-const updateStorage = (data) =>{
-  localStorage.setItem("Todos", JSON.stringify(data));
-} 
-
-const user = localStorage.getItem("user");
-const StoredData = JSON.parse(localStorage.getItem("Todos"));
 
 const addTask = (e,user,update,todo,inputData,updateInputData) => {
-  console.log(todo);
   e.preventDefault();
+  if(inputData.trim()){
   const cuurentData = [
     ...todo,
     {title:inputData, id: todo.length, date: moment().format('LTS'),name:user},
@@ -29,14 +23,24 @@ const addTask = (e,user,update,todo,inputData,updateInputData) => {
     "Todos",
     JSON.stringify(cuurentData)
   );
+  }else{
+    alert("Write task name")
+  }
 }
 
 function App() {
-  const [isLogined, updateLogin] = useState(user!==undefined);
+  const updateStorage = (data) =>{
+    localStorage.setItem("Todos", JSON.stringify(data));
+  } 
+  const user = localStorage.getItem("user");
+  const StoredData = JSON.parse(localStorage.getItem("Todos"));
+
+  const [isLogined, updateLogin] = useState(false);
   const [todo, update] = useState([]);
   const [inputData,updateInputData] = useState('');
   useEffect(()=>StoredData !== null?update(StoredData):null,[])
-  console.log(todo);  
+  useEffect(()=>user!==null?updateLogin(true):null,[])
+  console.log(user);  
   return (
     <>
       {isLogined ? (
