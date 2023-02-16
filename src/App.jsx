@@ -1,83 +1,80 @@
-import React, { useState } from "react";
+import moment from "moment/moment";
+import React, { useEffect, useState } from "react";
+import { Button, Form, InputGroup } from "react-bootstrap";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Stat from "./components/Stat";
 import TodoItem from "./components/TodoItem";
 import "./styles/style.css";
 
+
+
+const updateStorage = (data) =>{
+  localStorage.setItem("Todos", JSON.stringify(data));
+} 
+
+const user = localStorage.getItem("user");
+const StoredData = JSON.parse(localStorage.getItem("Todos"));
+
+const addTask = (e,user,update,todo,inputData,updateInputData) => {
+  console.log(todo);
+  e.preventDefault();
+  const cuurentData = [
+    ...todo,
+    {title:inputData, id: todo.length, date: moment().format('LTS'),name:user},
+  ]
+  updateInputData("");
+  update(cuurentData);
+  localStorage.setItem(
+    "Todos",
+    JSON.stringify(cuurentData)
+  );
+}
+
 function App() {
-  const user = localStorage.getItem("user");
-  const StoredData = JSON.parse(localStorage.getItem("Todos")) || [];
-  const cuurentID =
-    StoredData.length === 0 ? 0 : StoredData[StoredData.length - 1].id + 1;
-  const [isLogined, updateLogin] = useState(false);
-  const [todo, update] = useState(StoredData);
-  const [counter, updateCounter] = useState(cuurentID);
-  const initialFormData = {
-    title: "",
-    date: "",
-    isDone: false,
-    name: user,
-  };
-  const [data, updateData] = useState(initialFormData);
-  function updateFormField(event) {
-    updateData({ ...data, [event.target.name]: event.target.value });
-  }
-  function changeStatus() {
-    updateLogin(!isLogined);
-  }
+  const [isLogined, updateLogin] = useState(user!==undefined);
+  const [todo, update] = useState([]);
+  const [inputData,updateInputData] = useState('');
+  useEffect(()=>StoredData !== null?update(StoredData):null,[])
+  console.log(todo);  
   return (
-    <div>
-      {user ? (
-        <Logout changeStatus={changeStatus} />
+    <>
+      {isLogined ? (
+        <Logout changeStatus={updateLogin} />
       ) : (
-        <Login changeStatus={changeStatus} />
+        <Login changeStatus={updateLogin} />
       )}
-      <form
-        className={user ? "form" : "none"}
-        onSubmit={(e) => {
-          e.preventDefault();
-          const time = [ new Date().getSeconds() < 10 ? `0${new Date().getSeconds()}` : new Date().getSeconds(),new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes(),new Date().getHours() < 10 ? `0${new Date().getHours}` : new Date().getHours()].join(':')
-          const cuurentData = [
-            ...todo,
-            { ...data, id: counter, date: time,name:user},
-          ]
-          update(cuurentData);
-          updateCounter(counter + 1);
-          updateData(initialFormData);
-          localStorage.setItem(
-            "Todos",
-            JSON.stringify(cuurentData)
-          );
-        }}
-      >
-        <input
-          required
-          type="text"
-          name="title"
-          value={data.title}
-          onChange={updateFormField}
-        />
-        <button type="submit">Add task</button>
-      </form>
+    <div className={isLogined ? "" : "none"}>
+      <Form className="form" onSubmit={(e)=>addTask(e,user,update,todo,inputData,updateInputData)}>
+        <Form.Label>Add task</Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              required
+              value={inputData}
+              placeholder="task name"
+              onChange={(e)=>updateInputData(e.target.value)}/>
+            <Button type="submit" variant="outline-secondary" id="button-addon2">
+              Add
+            </Button>
+          </InputGroup>
+      </Form>
       <ul>
-        {todo.map((todoItem, index) => {
+        {todo.map(todoItem => {
           return (
             <TodoItem
               key={todoItem.id}
               data={todoItem}
               changeStatus={() => {
-                const dataSlice = [...todo];
-                dataSlice[index].isDone = !todoItem.isDone;
-                update(dataSlice);
-                localStorage.setItem("Todos", JSON.stringify(dataSlice));
+                todo[todoItem.id].isDone = !todoItem.isDone;
+                update([...todo]);
+                updateStorage(todo);
               }}
               deleteItem={() => {
                 const updatedTodos = todo.filter((tI) => {
                   return tI.id !== todoItem.id;
                 });
                 update(updatedTodos);
-                localStorage.setItem("Todos", JSON.stringify(updatedTodos));
+                updateStorage(updatedTodos);
               }}
             />
           );
@@ -85,6 +82,7 @@ function App() {
       </ul>
       <Stat todo={todo} />
     </div>
+    </>
   );
 }
 export default App;

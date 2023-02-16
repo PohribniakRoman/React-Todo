@@ -1,15 +1,14 @@
+import {BsDoorOpen} from 'react-icons/bs';
+
+
 export default function Logout({changeStatus}) {
   return (
-    <div>
-      <button
-        onClick={() => {
-          changeStatus();
+    <div className="name">
+      <div className='name--logout' onClick={() => {
+          changeStatus(false);
           localStorage.removeItem("user");
-        }}
-      >
-        Logout
-      </button>
-      <div>Current user:{localStorage.getItem('user')}</div>
+        }}><BsDoorOpen/></div>
+      <div className="name--label">{localStorage.getItem('user')}</div>
     </div>
   );
 }

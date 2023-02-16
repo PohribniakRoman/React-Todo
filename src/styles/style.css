@@ -1,97 +1,56 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/* reset */
-
-.none{
-    display: none;
-}
-.form{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-*{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
 .todo{
     margin: 0 auto;
     width: 80%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
-ul{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    list-style: decimal-leading-zero;
-}
-button{
-    float: right;
-}
-.completed{
-    width: 300px;
-    height: 30px;
+.form{
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: lightgreen;
+    width: 500px;
+    margin-top: 30px;
 }
-.uncompleted{
-    width: 300px;
-    height: 30px;
-    margin: 0 auto;
+.name{
+    position: absolute;
+    top: 0px;
+    right: 0px;
     display: flex;
+    width: 100%;
+    padding: 10px 30px;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    background-color: rgb(66, 66, 66);
     align-items: center;
-    justify-content: center;
-    background-color: red;
 }
-b{
-    background-color: #111111;
+.controls{
+    cursor: pointer;
+    display: flex;
+    width: 50px;
+    justify-content: space-between;
+}
+.name--logout{
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+}
+.name--label{
+    margin-right: 30px;
     padding: 5px;
-    color: #ffffff;
+    border-radius: 20px;
+    background-color: #fff;
+    color: rgb(66, 66, 66);
+}
+.stat{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.none{
+    display: none;
+}
+.login{
+    margin: 0 auto;
+    width: 50%;
+    margin-top: 20vh;
 }
